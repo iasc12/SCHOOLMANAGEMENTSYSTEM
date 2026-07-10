@@ -1,7 +1,7 @@
-from django.conrib import admin
-from django.urls path, include
+from django.contrib import admin
+from django.urls import path, include
 
-urlspatterns = [
+urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
 ]
