@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 # ==========================
 # LOGIN VIEW
 # ==========================
-
 def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -50,7 +49,6 @@ def login_view(request):
 # ==========================
 # LOGOUT
 # ==========================
-
 @login_required
 def logout_view(request):
     logout(request)
@@ -60,7 +58,6 @@ def logout_view(request):
 # ==========================
 # DASHBOARD REDIRECT
 # ==========================
-
 @login_required
 def dashboard_redirect(request):
     role = request.user.role
@@ -83,19 +80,17 @@ def dashboard_redirect(request):
 # ==========================
 # ADMIN DASHBOARD
 # ==========================
-
 @login_required
 def admin_dashboard(request):
     if request.user.role != "admin":
         return redirect("dashboard")
 
-    return render(request, "accounts/admin_dashboard.html")
+    return render(request, "admin/dashboard.html")
 
 
 # ==========================
 # TEACHER DASHBOARD
 # ==========================
-
 @login_required
 def teacher_dashboard(request):
     if request.user.role != "teacher":
@@ -107,7 +102,6 @@ def teacher_dashboard(request):
 # ==========================
 # STUDENT DASHBOARD
 # ==========================
-
 @login_required
 def student_dashboard(request):
     if request.user.role != "student":
@@ -119,7 +113,6 @@ def student_dashboard(request):
 # ==========================
 # WORKER DASHBOARD
 # ==========================
-
 @login_required
 def worker_dashboard(request):
     if request.user.role != "worker":

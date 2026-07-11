@@ -1,13 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Dashboard</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 
-<h1>Welcome Admin</h1>
+<div>
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, {{ user.class.username }}</p>
+        <h3>Sytsem Management</h3>
+        <ul>
+            <li><a href="{% url 'admin_dashboard' %}">Admin Dashboard</a></li>
+             <li><a href="{% url 'student_dashboard' %}">Student Dashboard</a></li>
+             <li><a href="{% url 'teacher_dashboard' %}">Teacher Dashboard</a></li>
+             <li><a href="{% url 'worker_dashboard' %}">Worker Dashboard</a></li>
+            
+        </ul>
+</div>
 
-<a href="{% url 'logout' %}">Logout</a>
-
-</body>
-</html>
+{% endblock %}
