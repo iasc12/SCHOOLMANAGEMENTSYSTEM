@@ -1,32 +1,42 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
+
 from .models import Student
 from .forms import StudentForm
 
+from dashboard.models import Activity
 
-# ==========================
-# STUDENT LIST
-# ==========================
+
+
 def student_list(request):
 
     search = request.GET.get("search", "")
 
     students = Student.objects.all()
 
+
     if search:
+
         students = students.filter(
             admission_number__icontains=search
-        ) | Student.objects.filter(
+        ) | students.filter(
             first_name__icontains=search
-        ) | Student.objects.filter(
+        ) | students.filter(
             last_name__icontains=search
         )
 
-    paginator = Paginator(students, 10)
+
+    paginator = Paginator(
+        students,
+        10
+    )
 
     page_number = request.GET.get("page")
 
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginator.get_page(
+        page_number
+    )
+
 
     return render(
         request,
@@ -35,13 +45,12 @@ def student_list(request):
             "students": page_obj,
             "page_obj": page_obj,
             "search": search,
-        },
+        }
     )
 
 
-# ==========================
-# ADD STUDENT
-# ==========================
+
+
 def add_student(request):
 
     if request.method == "POST":
@@ -51,29 +60,47 @@ def add_student(request):
             request.FILES
         )
 
+
         if form.is_valid():
-            form.save()
-            return redirect("student_list")
+
+            student = form.save()
+
+
+            Activity.objects.create(
+                user=request.user,
+                message=f"{request.user.username} added student {student.first_name} {student.last_name}"
+            )
+
+
+            return redirect(
+                "student_list"
+            )
+
 
     else:
 
         form = StudentForm()
 
+
     return render(
         request,
         "students/student_form.html",
         {
-            "form": form,
-        },
+            "form": form
+        }
     )
 
 
-# ==========================
-# EDIT STUDENT
-# ==========================
+
+
+
 def edit_student(request, pk):
 
-    student = get_object_or_404(Student, pk=pk)
+    student = get_object_or_404(
+        Student,
+        pk=pk
+    )
+
 
     if request.method == "POST":
 
@@ -83,53 +110,90 @@ def edit_student(request, pk):
             instance=student
         )
 
+
         if form.is_valid():
-            form.save()
-            return redirect("student_list")
+
+            student = form.save()
+
+
+            Activity.objects.create(
+                user=request.user,
+                message=f"{request.user.username} updated student {student.first_name} {student.last_name}"
+            )
+
+
+            return redirect(
+                "student_list"
+            )
+
 
     else:
 
-        form = StudentForm(instance=student)
+        form = StudentForm(
+            instance=student
+        )
+
 
     return render(
         request,
         "students/student_form.html",
         {
-            "form": form,
-        },
+            "form": form
+        }
     )
 
 
-# ==========================
-# DELETE STUDENT
-# ==========================
+
+
+
 def delete_student(request, pk):
 
-    student = get_object_or_404(Student, pk=pk)
+    student = get_object_or_404(
+        Student,
+        pk=pk
+    )
+
 
     if request.method == "POST":
+
+        Activity.objects.create(
+            user=request.user,
+            message=f"{request.user.username} deleted student {student.first_name} {student.last_name}"
+        )
+
+
         student.delete()
-        return redirect("student_list")
+
+
+        return redirect(
+            "student_list"
+        )
+
 
     return render(
         request,
         "students/student_confirm_delete.html",
         {
-            "student": student,
-        },
+            "student": student
+        }
     )
 
-    # ==========================
-# STUDENT DETAIL
-# ==========================
+
+
+
+
 def student_detail(request, pk):
 
-    student = get_object_or_404(Student, pk=pk)
+    student = get_object_or_404(
+        Student,
+        pk=pk
+    )
+
 
     return render(
         request,
         "students/student_detail.html",
         {
-            "student": student,
-        },
+            "student": student
+        }
     )
