@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Students{% endblock %}
+{% block title %}
+Students
+{% endblock %}
 
 {% block content %}
 
@@ -22,11 +24,11 @@
             type="text"
             name="search"
             class="form-control"
-            placeholder="Search students..."
+            placeholder="Search by admission number, first name or last name..."
             value="{{ search }}"
         >
 
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" type="submit">
             Search
         </button>
 
@@ -38,21 +40,19 @@
 
 </form>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped table-hover">
 
     <thead class="table-dark">
 
         <tr>
-
             <th>Photo</th>
-            <th>Admission</th>
+            <th>Admission No</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Gender</th>
             <th>Class</th>
             <th>Phone</th>
-            <th>Actions</th>
-
+            <th width="220">Actions</th>
         </tr>
 
     </thead>
@@ -63,31 +63,44 @@
 
         <tr>
 
-            <td>
+            <td class="text-center">
 
                 {% if student.photo %}
 
                     <img src="{{ student.photo.url }}"
                          width="60"
                          height="60"
-                         style="border-radius:50%; object-fit:cover;">
+                         class="rounded-circle"
+                         style="object-fit: cover;">
 
                 {% else %}
 
-                    No Photo
+                    <span class="text-muted">
+                        No Photo
+                    </span>
 
                 {% endif %}
 
             </td>
 
             <td>{{ student.admission_number }}</td>
+
             <td>{{ student.first_name }}</td>
+
             <td>{{ student.last_name }}</td>
+
             <td>{{ student.gender }}</td>
+
             <td>{{ student.school_class }}</td>
+
             <td>{{ student.phone_number }}</td>
 
             <td>
+
+                <a href="{% url 'student_detail' student.id %}"
+                   class="btn btn-info btn-sm">
+                    View
+                </a>
 
                 <a href="{% url 'edit_student' student.id %}"
                    class="btn btn-warning btn-sm">
@@ -108,7 +121,9 @@
         <tr>
 
             <td colspan="8" class="text-center">
+
                 No students found.
+
             </td>
 
         </tr>
@@ -119,70 +134,72 @@
 
 </table>
 
-<nav>
+<!-- Pagination -->
 
-<ul class="pagination justify-content-center">
+<nav aria-label="Student Pagination">
 
-{% if page_obj.has_previous %}
+    <ul class="pagination justify-content-center">
 
-<li class="page-item">
+        {% if page_obj.has_previous %}
 
-<a class="page-link"
-href="?page={{ page_obj.previous_page_number }}&search={{ search }}">
-Previous
-</a>
+            <li class="page-item">
 
-</li>
+                <a class="page-link"
+                   href="?page={{ page_obj.previous_page_number }}&search={{ search }}">
+                    Previous
+                </a>
 
-{% endif %}
+            </li>
 
-{% for page_num in page_obj.paginator.page_range %}
+        {% endif %}
 
-{% if page_obj.number == page_num %}
+        {% for page_num in page_obj.paginator.page_range %}
 
-<li class="page-item active">
+            {% if page_obj.number == page_num %}
 
-<span class="page-link">
+                <li class="page-item active">
 
-{{ page_num }}
+                    <span class="page-link">
 
-</span>
+                        {{ page_num }}
 
-</li>
+                    </span>
 
-{% else %}
+                </li>
 
-<li class="page-item">
+            {% else %}
 
-<a class="page-link"
-href="?page={{ page_num }}&search={{ search }}">
+                <li class="page-item">
 
-{{ page_num }}
+                    <a class="page-link"
+                       href="?page={{ page_num }}&search={{ search }}">
 
-</a>
+                        {{ page_num }}
 
-</li>
+                    </a>
 
-{% endif %}
+                </li>
 
-{% endfor %}
+            {% endif %}
 
-{% if page_obj.has_next %}
+        {% endfor %}
 
-<li class="page-item">
+        {% if page_obj.has_next %}
 
-<a class="page-link"
-href="?page={{ page_obj.next_page_number }}&search={{ search }}">
+            <li class="page-item">
 
-Next
+                <a class="page-link"
+                   href="?page={{ page_obj.next_page_number }}&search={{ search }}">
 
-</a>
+                    Next
 
-</li>
+                </a>
 
-{% endif %}
+            </li>
 
-</ul>
+        {% endif %}
+
+    </ul>
 
 </nav>
 

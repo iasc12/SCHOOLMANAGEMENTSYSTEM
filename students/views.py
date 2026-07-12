@@ -118,3 +118,18 @@ def delete_student(request, pk):
             "student": student,
         },
     )
+
+    # ==========================
+# STUDENT DETAIL
+# ==========================
+def student_detail(request, pk):
+
+    student = get_object_or_404(Student, pk=pk)
+
+    return render(
+        request,
+        "students/student_detail.html",
+        {
+            "student": student,
+        },
+    )
