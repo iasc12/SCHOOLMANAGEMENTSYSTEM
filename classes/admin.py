@@ -4,8 +4,15 @@ from .models import SchoolClass
 
 @admin.register(SchoolClass)
 class SchoolClassAdmin(admin.ModelAdmin):
+
     list_display = (
-        'name',
-        'stream',
-        'academic_year',
+        "id",
+        "name",
+        "section",
+        "created_at",
+    )
+
+    search_fields = (
+        "name",
+        "section",
     )

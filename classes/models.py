@@ -4,20 +4,26 @@ from django.db import models
 class SchoolClass(models.Model):
 
     name = models.CharField(
-        max_length=50
+        max_length=100,
+        unique=True
     )
 
-    stream = models.CharField(
-        max_length=30
+
+    section = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True
     )
 
-    academic_year = models.PositiveIntegerField()
 
-    teachers = models.ManyToManyField(
-        'teachers.Teacher',
-        related_name='classes',
-        blank=True
+    created_at = models.DateTimeField(
+        auto_now_add=True
     )
+
 
     def __str__(self):
-        return f"{self.name} {self.stream} {self.academic_year}"
+
+        if self.section:
+            return f"{self.name} {self.section}"
+
+        return self.name
