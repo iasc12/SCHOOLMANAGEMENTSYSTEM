@@ -1,34 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}
-Student Form
-{% endblock %}
+{% block title %}Student Form{% endblock %}
 
 {% block content %}
 
-<h2>Student Form</h2>
+<div class="card">
 
-<form method="post">
+    <div class="card-header bg-primary text-white">
+        <h4>Student Form</h4>
+    </div>
 
-    {% csrf_token %}
+    <div class="card-body">
 
-    {{ form.as_p }}
+        <form method="post" enctype="multipart/form-data">
 
-    <button
-        type="submit"
-        class="btn btn-primary">
+            {% csrf_token %}
 
-        Save Student
+            {{ form.as_p }}
 
-    </button>
+            <button class="btn btn-success">
+                Save Student
+            </button>
 
-    <a href="{% url 'student_list' %}"
-       class="btn btn-secondary">
+            <a href="{% url 'student_list' %}" class="btn btn-secondary">
+                Cancel
+            </a>
 
-        Cancel
+        </form>
 
-    </a>
+    </div>
 
-</form>
+</div>
 
 {% endblock %}

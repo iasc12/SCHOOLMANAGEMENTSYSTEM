@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from .models import Student
 from .forms import StudentForm
-from django.core.paginator import Paginator
 
 
 # ==========================
 # STUDENT LIST
 # ==========================
 def student_list(request):
+
     search = request.GET.get("search", "")
 
     students = Student.objects.all()
@@ -31,11 +32,12 @@ def student_list(request):
         request,
         "students/student_list.html",
         {
-            "page_obj": page_obj,
             "students": page_obj,
+            "page_obj": page_obj,
             "search": search,
         },
     )
+
 
 # ==========================
 # ADD STUDENT
@@ -43,19 +45,26 @@ def student_list(request):
 def add_student(request):
 
     if request.method == "POST":
-        form = StudentForm(request.POST)
+
+        form = StudentForm(
+            request.POST,
+            request.FILES
+        )
 
         if form.is_valid():
             form.save()
             return redirect("student_list")
 
     else:
+
         form = StudentForm()
 
     return render(
         request,
         "students/student_form.html",
-        {"form": form},
+        {
+            "form": form,
+        },
     )
 
 
@@ -67,19 +76,27 @@ def edit_student(request, pk):
     student = get_object_or_404(Student, pk=pk)
 
     if request.method == "POST":
-        form = StudentForm(request.POST, instance=student)
+
+        form = StudentForm(
+            request.POST,
+            request.FILES,
+            instance=student
+        )
 
         if form.is_valid():
             form.save()
             return redirect("student_list")
 
     else:
+
         form = StudentForm(instance=student)
 
     return render(
         request,
         "students/student_form.html",
-        {"form": form},
+        {
+            "form": form,
+        },
     )
 
 
@@ -92,8 +109,12 @@ def delete_student(request, pk):
 
     if request.method == "POST":
         student.delete()
+        return redirect("student_list")
+
     return render(
-    request,
-    "students/student_confirm_delete.html",
-    {"student": student},
-)
+        request,
+        "students/student_confirm_delete.html",
+        {
+            "student": student,
+        },
+    )

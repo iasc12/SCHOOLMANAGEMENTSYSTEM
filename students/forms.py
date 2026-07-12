@@ -3,9 +3,12 @@ from .models import Student
 
 
 class StudentForm(forms.ModelForm):
+
     class Meta:
         model = Student
+
         fields = [
+            "photo",
             "first_name",
             "last_name",
             "gender",
@@ -16,5 +19,7 @@ class StudentForm(forms.ModelForm):
         ]
 
         widgets = {
-            "date_of_birth": forms.DateInput(attrs={"type": "date"})
+            "date_of_birth": forms.DateInput(
+                attrs={"type": "date"}
+            ),
         }

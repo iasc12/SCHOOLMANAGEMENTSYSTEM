@@ -4,6 +4,7 @@ from accounts.models import CustomUser
 
 
 class Student(models.Model):
+
     user = models.OneToOneField(
         CustomUser,
         on_delete=models.SET_NULL,
@@ -19,16 +20,35 @@ class Student(models.Model):
 
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
+
+    gender = models.CharField(
+        max_length=10,
+        choices=GENDER_CHOICES
+    )
+
     date_of_birth = models.DateField()
-    phone_number = models.CharField(max_length=20)
-    admission_number = models.CharField(max_length=20, unique=True)
+
+    phone_number = models.CharField(
+        max_length=20
+    )
+
+    admission_number = models.CharField(
+        max_length=20,
+        unique=True
+    )
 
     school_class = models.ForeignKey(
         SchoolClass,
         on_delete=models.CASCADE,
         null=True,
         blank=True
+    )
+
+    # Student passport photo
+    photo = models.ImageField(
+        upload_to="student_photos/",
+        blank=True,
+        null=True
     )
 
     def __str__(self):
