@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-
+from students.models import Student
+from classes.models import SchoolClass
+from accounts.models import CustomUser
 # ==========================
 # LOGIN VIEW
 # ==========================
@@ -85,8 +87,14 @@ def admin_dashboard(request):
     if request.user.role != "admin":
         return redirect("dashboard")
 
-    return render(request, "admin/dashboard.html")
+    context = {
+        "students": Student.objects.count(),
+        "teachers": CustomUser.objects.filter(role="teacher").count(),
+        "workers": CustomUser.objects.filter(role="worker").count(),
+        "classes": SchoolClass.objects.count(),
+    }
 
+    return render(request, "admin/dashboard.html", context)
 
 # ==========================
 # TEACHER DASHBOARD

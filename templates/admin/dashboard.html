@@ -1,51 +1,115 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
 
-{% block title %}
-Admin Dashboard
-{% endblock %}
+    <style>
 
-{% block content %}
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f6f9;
+}
 
-<h2 class="mb-4">Admin Dashboard</h2>
+.header{
+    background:#0d6efd;
+    color:white;
+    padding:20px;
+}
 
-<div class="row">
+.container{
+    width:90%;
+    margin:auto;
+}
 
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-                <h5>Total Students</h5>
-                <h2>0</h2>
-            </div>
-        </div>
-    </div>
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-top:30px;
+}
 
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-                <h5>Total Teachers</h5>
-                <h2>0</h2>
-            </div>
-        </div>
-    </div>
+.card{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
 
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-                <h5>Total Workers</h5>
-                <h2>0</h2>
-            </div>
-        </div>
-    </div>
+.card h1{
+    margin:0;
+    color:#0d6efd;
+}
 
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-                <h5>Total Classes</h5>
-                <h2>0</h2>
-            </div>
-        </div>
-    </div>
+.menu{
+    margin-top:40px;
+}
+
+.menu a{
+    display:inline-block;
+    padding:12px 20px;
+    background:#0d6efd;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+    margin-right:10px;
+    margin-bottom:10px;
+}
+
+.menu a:hover{
+    background:#084298;
+}
+
+    </style>
+
+</head>
+<body>
+
+<div class="header">
+<h2>School Management System</h2>
+<p>Welcome {{ request.user.username }}</p>
+</div>
+
+<div class="container">
+
+<div class="cards">
+
+<div class="card">
+<h3>Students</h3>
+<h1>{{ students }}</h1>
+</div>
+
+<div class="card">
+<h3>Teachers</h3>
+<h1>{{ teachers }}</h1>
+</div>
+
+<div class="card">
+<h3>Workers</h3>
+<h1>{{ workers }}</h1>
+</div>
+
+<div class="card">
+<h3>Classes</h3>
+<h1>{{ classes }}</h1>
+</div>
 
 </div>
 
-{% endblock %}
+<div class="menu">
+
+<a href="/students/">Manage Students</a>
+
+<a href="#">Manage Teachers</a>
+
+<a href="#">Manage Workers</a>
+
+<a href="#">Manage Classes</a>
+
+</div>
+
+</div>
+
+</body>
+</html>
