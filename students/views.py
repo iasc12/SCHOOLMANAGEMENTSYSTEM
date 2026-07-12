@@ -7,14 +7,27 @@ from .forms import StudentForm
 # STUDENT LIST
 # ==========================
 def student_list(request):
+    search = request.GET.get("search", "")
+
     students = Student.objects.all()
+
+    if search:
+        students = students.filter(
+            admission_number__icontains=search
+        ) | Student.objects.filter(
+            first_name__icontains=search
+        ) | Student.objects.filter(
+            last_name__icontains=search
+        )
 
     return render(
         request,
         "students/student_list.html",
-        {"students": students},
+        {
+            "students": students,
+            "search": search,
+        },
     )
-
 
 # ==========================
 # ADD STUDENT
