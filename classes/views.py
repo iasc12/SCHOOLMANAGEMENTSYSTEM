@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 
+
 def login_view(request):
 
     if request.method == "POST":
+
         username = request.POST['USERNAME']
-        Password = request.POST['password']
+        password = request.POST['password']
 
         user = authenticate(
             request,
@@ -14,14 +16,23 @@ def login_view(request):
         )
 
         if user is not None:
+
             login(request, user)
 
             if user.role == "admin":
-                return redirect('/admin/')
-                
+                return redirect('/admin-dashboard/')
+
             elif user.role == "teacher":
                 return redirect('/teacher-dashboard/')
+
             elif user.role == "student":
                 return redirect('/student-dashboard/')
+
+            elif user.role == "worker":
+                return redirect('/worker-dashboard/')
+
+
         return render(request, 'login.html')
-                    
+
+
+    return render(request, 'login.html')

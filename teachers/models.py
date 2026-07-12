@@ -1,6 +1,5 @@
 from django.db import models
-from classes.models import SchoolClass
-
+from accounts.models import CustomUser
 
 
 class Teacher(models.Model):
@@ -10,30 +9,42 @@ class Teacher(models.Model):
         ('Female', 'Female'),
     ]
 
+    user = models.OneToOneField(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name="teacher_profile",
+        null=True,
+        blank=True
+    )
+
     employee_number = models.CharField(
         max_length=20,
         unique=True
     )
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+
+    first_name = models.CharField(
+        max_length=100
+    )
+
+    last_name = models.CharField(
+        max_length=100
+    )
+
     gender = models.CharField(
         max_length=10,
         choices=GENDER_CHOICES
     )
-    phone_number = models.CharField(max_length=20)
-    email = models.EmailField(blank=True)
 
-    SchoolClass = models.ForeignKey(
-    SchoolClass,
-    on_delete=models.SET_NULL,
-    null=True,
-    blank=True
+    phone = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True
+    )
+
+    email = models.EmailField(
+        blank=True,
+        null=True
     )
 
     def __str__(self):
-        return f"{self.employee_number} - {self.first_name} {self.last_name}"
-
-# Create your models here.
-
-
-# Create your models here.
+        return f"{self.first_name} {self.last_name}"

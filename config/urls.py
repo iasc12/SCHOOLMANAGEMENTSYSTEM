@@ -12,12 +12,17 @@ urlpatterns = [
 
     path("dashboard/", account_views.dashboard_redirect, name="dashboard"),
 
-    path("admin-dashboard/", account_views.admin_dashboard, name="admin_dashboard"),
+    # New Dashboard App
+    path("admin-dashboard/", include("dashboard.urls")),
+
+    # Other dashboards (leave these for now)
     path("teacher-dashboard/", account_views.teacher_dashboard, name="teacher_dashboard"),
     path("student-dashboard/", account_views.student_dashboard, name="student_dashboard"),
     path("worker-dashboard/", account_views.worker_dashboard, name="worker_dashboard"),
 
+    # Apps
     path("students/", include("students.urls")),
+    path("teachers/", include("teachers.urls")),
 ]
 
 if settings.DEBUG:

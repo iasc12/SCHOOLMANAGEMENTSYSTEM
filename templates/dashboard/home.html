@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    <i class="bi bi-speedometer2"></i>
+    Admin Dashboard
+</h2>
+
+
+<div class="row g-4">
+
+
+    <!-- Teachers -->
+
+    <div class="col-md-3">
+
+        <div class="card bg-primary text-white text-center">
+
+            <div class="card-body">
+
+                <i class="bi bi-person-workspace display-4"></i>
+
+                <h5 class="mt-3">
+                    Teachers
+                </h5>
+
+                <h1>
+                    {{ teacher_count }}
+                </h1>
+
+                <a href="{% url 'teacher_list' %}"
+                   class="btn btn-light">
+
+                    View Teachers
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Students -->
+
+    <div class="col-md-3">
+
+        <div class="card bg-success text-white text-center">
+
+            <div class="card-body">
+
+                <i class="bi bi-mortarboard display-4"></i>
+
+                <h5 class="mt-3">
+                    Students
+                </h5>
+
+                <h1>
+                    {{ student_count }}
+                </h1>
+
+                <button class="btn btn-light" disabled>
+                    Coming Soon
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Workers -->
+
+    <div class="col-md-3">
+
+        <div class="card bg-warning text-dark text-center">
+
+            <div class="card-body">
+
+                <i class="bi bi-people display-4"></i>
+
+                <h5 class="mt-3">
+                    Workers
+                </h5>
+
+                <h1>
+                    {{ worker_count }}
+                </h1>
+
+                <button class="btn btn-dark" disabled>
+                    Coming Soon
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Classes -->
+
+    <div class="col-md-3">
+
+        <div class="card bg-danger text-white text-center">
+
+            <div class="card-body">
+
+                <i class="bi bi-building display-4"></i>
+
+                <h5 class="mt-3">
+                    Classes
+                </h5>
+
+                <h1>
+                    {{ class_count }}
+                </h1>
+
+                <button class="btn btn-light" disabled>
+                    Coming Soon
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- Chart -->
+
+<div class="card mt-5">
+
+    <div class="card-header">
+
+        <h4>
+            User Distribution
+        </h4>
+
+    </div>
+
+
+    <div class="card-body">
+
+        <canvas id="userChart"></canvas>
+
+    </div>
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+const ctx = document.getElementById('userChart');
+
+
+new Chart(ctx, {
+
+    type: 'pie',
+
+    data: {
+
+        labels: [
+
+            'Teachers',
+            'Students',
+            'Workers'
+
+        ],
+
+        datasets: [{
+
+            data: [
+
+                {{ teacher_count }},
+                {{ student_count }},
+                {{ worker_count }}
+
+            ]
+
+        }]
+
+    }
+
+});
+
+
+</script>
+
+
+{% endblock %}

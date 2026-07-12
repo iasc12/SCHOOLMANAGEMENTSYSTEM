@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Teacher Details</h2>
+
+<table>
+    <tr>
+        <th>Employee Number</th>
+        <td>{{ teacher.employee_number }}</td>
+    </tr>
+
+    <tr>
+        <th>First Name</th>
+        <td>{{ teacher.first_name }}</td>
+    </tr>
+
+    <tr>
+        <th>Last Name</th>
+        <td>{{ teacher.last_name }}</td>
+    </tr>
+
+    <tr>
+        <th>Gender</th>
+        <td>{{ teacher.gender }}</td>
+    </tr>
+
+    <tr>
+        <th>Phone</th>
+        <td>{{ teacher.phone }}</td>
+    </tr>
+
+    <tr>
+        <th>Email</th>
+        <td>{{ teacher.email }}</td>
+    </tr>
+</table>
+
+<br>
+
+<a class="btn" href="{% url 'teacher_edit' teacher.id %}">
+    Edit Teacher
+</a>
+
+<a class="btn" href="{% url 'teacher_list' %}">
+    Back to Teachers
+</a>
+
+{% endblock %}

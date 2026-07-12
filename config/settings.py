@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'subjects',
     'workers',
     'fees',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
