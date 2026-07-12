@@ -8,65 +8,143 @@ from .models import Teacher
 
 @login_required
 def teacher_dashboard(request):
-    return render(request, "teachers/dashboard.html")
+
+    return render(
+        request,
+        "teachers/dashboard.html"
+    )
+
 
 
 @login_required
 def teacher_profile(request):
-    teacher, created = Teacher.objects.get_or_create(user=request.user)
+
+    teacher, created = Teacher.objects.get_or_create(
+        user=request.user
+    )
+
 
     if request.method == "POST":
-        form = TeacherProfileForm(request.POST, instance=teacher)
+
+        form = TeacherProfileForm(
+            request.POST,
+            instance=teacher
+        )
+
 
         if form.is_valid():
+
             form.save()
-            return redirect("teacher_dashboard")
+
+
+            # Create dashboard activity
+            from dashboard.models import Activity
+
+            Activity.objects.create(
+                user=request.user,
+                message=f"{request.user.username} created/updated teacher profile"
+            )
+
+
+            return redirect(
+                "teacher_dashboard"
+            )
+
 
     else:
-        form = TeacherProfileForm(instance=teacher)
+
+        form = TeacherProfileForm(
+            instance=teacher
+        )
+
 
     return render(
         request,
         "teachers/teacher_profile.html",
-        {"form": form},
+        {
+            "form": form
+        }
     )
+
 
 
 @staff_member_required
 def teacher_list(request):
+
     teachers = Teacher.objects.all()
+
 
     return render(
         request,
         "teachers/teacher_list.html",
-        {"teachers": teachers},
+        {
+            "teachers": teachers
+        }
     )
+
 
 
 @staff_member_required
 def teacher_detail(request, pk):
-    teacher = get_object_or_404(Teacher, pk=pk)
+
+    teacher = get_object_or_404(
+        Teacher,
+        pk=pk
+    )
+
 
     return render(
         request,
         "teachers/teacher_detail.html",
-        {"teacher": teacher},
+        {
+            "teacher": teacher
+        }
     )
+
 
 
 @staff_member_required
 def teacher_edit(request, pk):
-    teacher = get_object_or_404(Teacher, pk=pk)
+
+    teacher = get_object_or_404(
+        Teacher,
+        pk=pk
+    )
+
 
     if request.method == "POST":
-        form = TeacherProfileForm(request.POST, instance=teacher)
+
+        form = TeacherProfileForm(
+            request.POST,
+            instance=teacher
+        )
+
 
         if form.is_valid():
+
             form.save()
-            return redirect("teacher_detail", pk=teacher.pk)
+
+
+            from dashboard.models import Activity
+
+            Activity.objects.create(
+                user=request.user,
+                message=f"{request.user.username} updated teacher profile"
+            )
+
+
+            return redirect(
+                "teacher_detail",
+                pk=teacher.pk
+            )
+
 
     else:
-        form = TeacherProfileForm(instance=teacher)
+
+        form = TeacherProfileForm(
+            instance=teacher
+        )
+
 
     return render(
         request,
@@ -74,5 +152,5 @@ def teacher_edit(request, pk):
         {
             "form": form,
             "teacher": teacher,
-        },
+        }
     )
