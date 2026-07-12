@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="card-header bg-info text-white">
+            <h3>Class Details</h3>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table">
+
+                <tr>
+                    <th>Name</th>
+                    <td>{{ school_class.name }}</td>
+                </tr>
+
+                <tr>
+                    <th>Section</th>
+                    <td>{{ school_class.section }}</td>
+                </tr>
+
+                <tr>
+                    <th>Created</th>
+                    <td>{{ school_class.created_at }}</td>
+                </tr>
+
+            </table>
+
+            <a href="{% url 'edit_class' school_class.id %}" class="btn btn-warning">
+                Edit
+            </a>
+
+            <a href="{% url 'class_list' %}" class="btn btn-secondary">
+                Back
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

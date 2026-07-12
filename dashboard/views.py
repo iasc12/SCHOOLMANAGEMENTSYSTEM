@@ -7,6 +7,7 @@ from students.models import Student
 from classes.models import SchoolClass
 
 from .models import Activity
+from classes.models import SchoolClass
 
 
 @staff_member_required

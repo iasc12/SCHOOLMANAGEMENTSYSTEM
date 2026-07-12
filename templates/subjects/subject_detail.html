@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="card-header bg-info text-white">
+
+            <h3>Subject Details</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table">
+
+                <tr>
+                    <th>Code</th>
+                    <td>{{ subject.code }}</td>
+                </tr>
+
+                <tr>
+                    <th>Name</th>
+                    <td>{{ subject.name }}</td>
+                </tr>
+
+                <tr>
+                    <th>Teacher</th>
+                    <td>{{ subject.teacher }}</td>
+                </tr>
+
+                <tr>
+                    <th>Compulsory</th>
+                    <td>
+                        {% if subject.is_compulsory %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Classes</th>
+                    <td>
+
+                        {% for cls in subject.classes.all %}
+
+                            {{ cls }}<br>
+
+                        {% empty %}
+
+                            No classes assigned.
+
+                        {% endfor %}
+
+                    </td>
+                </tr>
+
+            </table>
+
+            <a href="{% url 'edit_subject' subject.id %}"
+               class="btn btn-warning">
+
+                Edit
+
+            </a>
+
+            <a href="{% url 'subject_list' %}"
+               class="btn btn-secondary">
+
+                Back
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
