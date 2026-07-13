@@ -1,51 +1,44 @@
 {% extends "base.html" %}
 
-
 {% block content %}
-
 
 <div class="container-fluid">
 
 
     <h2 class="mb-4">
-
         <i class="bi bi-speedometer2"></i>
-
         Admin Dashboard
-
     </h2>
 
 
 
     <!-- Statistics Cards -->
 
-    <div class="row g-4">
+    <div class="row g-3 justify-content-center">
 
 
-        <div class="col-md-3">
+        <!-- Teachers -->
 
-            <div class="card bg-primary text-white text-center">
+        <div class="col-lg-3 col-md-3 col-sm-6 d-flex justify-content-center">
 
-                <div class="card-body">
+            <div class="admin-card admin-teachers">
 
+                <div class="text-center">
 
                     <h5>
-                        Teachers
+                        👨‍🏫 Teachers
                     </h5>
-
 
                     <h1>
                         {{ teacher_count }}
                     </h1>
 
-
                     <a href="{% url 'teacher_list' %}"
-                       class="btn btn-light">
+                       class="btn btn-light btn-sm">
 
-                        View Teachers
+                        View
 
                     </a>
-
 
                 </div>
 
@@ -56,16 +49,16 @@
 
 
 
+        <!-- Students -->
 
-        <div class="col-md-3">
+        <div class="col-lg-3 col-md-3 col-sm-6 d-flex justify-content-center">
 
-            <div class="card bg-success text-white text-center">
+            <div class="admin-card admin-students">
 
-                <div class="card-body">
-
+                <div class="text-center">
 
                     <h5>
-                        Students
+                        👨‍🎓 Students
                     </h5>
 
 
@@ -75,16 +68,18 @@
 
 
                     <a href="/students/"
-                       class="btn btn-light">
+                       class="btn btn-light btn-sm">
 
-                        View Students
+                        View
 
                     </a>
 
 
                 </div>
 
+
             </div>
+
 
         </div>
 
@@ -92,15 +87,20 @@
 
 
 
-        <div class="col-md-3">
+        <!-- Workers -->
 
-            <div class="card bg-warning text-dark text-center">
 
-                <div class="card-body">
+        <div class="col-lg-3 col-md-3 col-sm-6 d-flex justify-content-center">
+
+
+            <div class="admin-card admin-workers">
+
+
+                <div class="text-center">
 
 
                     <h5>
-                        Workers
+                        👷 Workers
                     </h5>
 
 
@@ -109,9 +109,19 @@
                     </h1>
 
 
+                    <a href="{% url 'worker_list' %}"
+                       class="btn btn-dark btn-sm">
+
+                        View
+
+                    </a>
+
+
                 </div>
 
+
             </div>
+
 
         </div>
 
@@ -119,15 +129,20 @@
 
 
 
-        <div class="col-md-3">
+        <!-- Classes -->
 
-            <div class="card bg-danger text-white text-center">
 
-                <div class="card-body">
+        <div class="col-lg-3 col-md-3 col-sm-6 d-flex justify-content-center">
+
+
+            <div class="admin-card admin-classes">
+
+
+                <div class="text-center">
 
 
                     <h5>
-                        Classes
+                        🏫 Classes
                     </h5>
 
 
@@ -138,7 +153,9 @@
 
                 </div>
 
+
             </div>
+
 
         </div>
 
@@ -149,29 +166,32 @@
 
 
 
+
+
     <!-- Charts -->
 
-    <div class="row mt-5">
 
+    <div class="row mt-5 g-4">
 
 
         <!-- Gender Chart -->
 
 
-        <div class="col-md-6">
+        <div class="col-lg-4">
 
 
-            <div class="card">
+            <div class="chart-card">
 
 
-                <div class="card-header">
+                <div class="chart-title">
 
-                    Student Gender Distribution
+                    👥 Student Gender Distribution
 
                 </div>
 
 
-                <div class="card-body">
+
+                <div class="chart-box">
 
 
                     <canvas id="genderChart"></canvas>
@@ -189,23 +209,25 @@
 
 
 
+
         <!-- Class Chart -->
 
 
-        <div class="col-md-6">
+        <div class="col-lg-8">
 
 
-            <div class="card">
+            <div class="chart-card">
 
 
-                <div class="card-header">
+                <div class="chart-title">
 
-                    Students Per Class
+                    🏫 Students Per Class
 
                 </div>
 
 
-                <div class="card-body">
+
+                <div class="chart-box">
 
 
                     <canvas id="classChart"></canvas>
@@ -228,50 +250,56 @@
 
 
 
+
     <!-- Recent Activity -->
 
 
-    <div class="card mt-5">
+    <div class="activity-card mt-5">
 
 
-        <div class="card-header">
+        <div class="activity-header">
 
 
-            Recent Activity
+            📌 Recent Activity
 
 
         </div>
 
 
-        <div class="card-body">
+
+        <div class="activity-body">
 
 
             {% for activity in activities %}
 
 
-                <p>
+                <div class="mb-3">
+
 
                     <i class="bi bi-check-circle text-success"></i>
 
+
                     {{ activity.message }}
+
 
                     <br>
 
-                    <small class="text-muted">
+
+                    <small>
 
                         {{ activity.created_at }}
 
                     </small>
 
 
-                </p>
+                </div>
 
 
             {% empty %}
 
 
                 <p>
-                    No activity yet.
+                    No activity available.
                 </p>
 
 
@@ -286,14 +314,16 @@
 
 
 
-
 </div>
 
 
 
 
 
-<!-- Chart.js -->
+
+
+<!-- Chart JS -->
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -302,30 +332,25 @@
 <script>
 
 
-// Gender Chart
-
-
-const genderChart = document.getElementById(
-    "genderChart"
-);
-
-
-
 new Chart(
-    genderChart,
+
+    document.getElementById("genderChart"),
+
     {
 
-        type: "pie",
 
-        data: {
+        type:"pie",
+
+
+        data:{
+
 
             labels: {{ gender_labels|safe }},
 
-            datasets: [
+
+            datasets:[
 
                 {
-
-                    label: "Students",
 
                     data: {{ gender_values|safe }}
 
@@ -333,7 +358,20 @@ new Chart(
 
             ]
 
+
+        },
+
+
+        options:{
+
+
+            responsive:true,
+
+            maintainAspectRatio:false
+
+
         }
+
 
     }
 
@@ -344,40 +382,45 @@ new Chart(
 
 
 
-// Class Chart
-
-
-const classChart = document.getElementById(
-    "classChart"
-);
-
-
-
 new Chart(
 
-    classChart,
+    document.getElementById("classChart"),
 
     {
 
-        type: "bar",
 
-        data: {
+        type:"bar",
+
+
+        data:{
 
 
             labels: {{ class_labels|safe }},
 
 
-            datasets: [
+            datasets:[
 
                 {
 
-                    label: "Students",
+                    label:"Students",
 
                     data: {{ class_values|safe }}
 
                 }
 
             ]
+
+
+        },
+
+
+        options:{
+
+
+            responsive:true,
+
+            maintainAspectRatio:false
+
 
         }
 

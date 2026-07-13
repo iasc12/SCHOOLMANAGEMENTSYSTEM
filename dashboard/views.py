@@ -5,9 +5,10 @@ from django.db.models import Count
 from teachers.models import Teacher
 from students.models import Student
 from classes.models import SchoolClass
+from fees.models import Fee
+from workers.models import Worker
 
 from .models import Activity
-from classes.models import SchoolClass
 
 
 @staff_member_required
@@ -17,12 +18,26 @@ def admin_dashboard(request):
     teacher_count = Teacher.objects.count()
     student_count = Student.objects.count()
     class_count = SchoolClass.objects.count()
+    fee_count = Fee.objects.count()
 
-    # Temporary until Worker module is created
-    worker_count = 0
+
+    # Fee statistics
+    total_collected = sum(
+        fee.amount_paid for fee in Fee.objects.all()
+    )
+
+    total_balance = sum(
+        fee.balance for fee in Fee.objects.all()
+    )
+
+
+    # Worker count
+    worker_count = Worker.objects.count()
+
 
     # Recent activities
     activities = Activity.objects.order_by("-created_at")[:5]
+
 
     # -----------------------------
     # Student Gender Statistics
@@ -33,8 +48,16 @@ def admin_dashboard(request):
         .annotate(total=Count("id"))
     )
 
-    gender_labels = [item["gender"] for item in gender_data]
-    gender_values = [item["total"] for item in gender_data]
+    gender_labels = [
+        item["gender"]
+        for item in gender_data
+    ]
+
+    gender_values = [
+        item["total"]
+        for item in gender_data
+    ]
+
 
     # -----------------------------
     # Students Per Class Statistics
@@ -46,22 +69,50 @@ def admin_dashboard(request):
         .order_by("school_class__name")
     )
 
-    class_labels = [item["school_class__name"] for item in class_data]
-    class_values = [item["total"] for item in class_data]
+    class_labels = [
+        item["school_class__name"]
+        for item in class_data
+    ]
+
+    class_values = [
+        item["total"]
+        for item in class_data
+    ]
+
 
     context = {
+
         "teacher_count": teacher_count,
+
         "student_count": student_count,
+
         "worker_count": worker_count,
+
         "class_count": class_count,
+
+
+        # Fees
+        "fee_count": fee_count,
+
+        "total_collected": total_collected,
+
+        "total_balance": total_balance,
+
+
+        # Activities
         "activities": activities,
 
-        # Chart data
+
+        # Charts
         "gender_labels": gender_labels,
+
         "gender_values": gender_values,
+
         "class_labels": class_labels,
+
         "class_values": class_values,
     }
+
 
     return render(
         request,

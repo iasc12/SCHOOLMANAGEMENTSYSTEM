@@ -1,57 +1,198 @@
 from django.db import models
-from classes.models import SchoolClass
+from students.models import Student
+from django.utils import timezone
 
-class FeeStructure(models.Model):
-    TERM_CHOICES = [
-        ('Term 1', 'Term 1'),
-        ('Term 2', 'Term 2'),
-        ('Term 3', 'Term 3'),
+
+class Fee(models.Model):
+
+    STATUS_CHOICES = [
+        ("Paid", "Paid"),
+        ("Partial", "Partial"),
+        ("Pending", "Pending"),
     ]
-    school_class = models.ForeignKey(
-        SchoolClass,
-        on_delete=models.CASCADE
+
+
+    student = models.ForeignKey(
+        Student,
+        on_delete=models.CASCADE,
+        related_name="fees",
     )
+
 
     term = models.CharField(
-        max_length=10,
-        choices=TERM_CHOICES,
+        max_length=20
     )
-    tuition_fee = models.DecimalField(
+
+
+    year = models.PositiveIntegerField()
+
+
+
+    amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        default=0
     )
-    transport_fee = models.DecimalField(
+
+
+    amount_paid = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        default=0
+        default=0,
     )
-    activity_fee = models.DecimalField(
+
+
+    balance = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        default=0
+        default=0,
     )
-    exam_fee = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
+
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="Pending",
     )
-    boarding_fee = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
+
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
     )
-    def total_fee(self):
-        return (
-            self.tuition_fee +
-            self.activity_fee +
-            self.boarding_fee +
-            self.transport_fee +
-            self.exam_fee
+
+
+
+    def update_balance(self):
+
+        total_paid = sum(
+            payment.amount 
+            for payment in self.payments.all()
         )
 
-    
+
+        self.amount_paid = total_paid
+
+        self.balance = self.amount - total_paid
+
+
+
+        if self.balance <= 0:
+
+            self.status = "Paid"
+
+
+        elif total_paid > 0:
+
+            self.status = "Partial"
+
+
+        else:
+
+            self.status = "Pending"
+
+
+
+        super().save(
+            update_fields=[
+                "amount_paid",
+                "balance",
+                "status"
+            ]
+        )
+
 
 
     def __str__(self):
-        return f"{self.school_class} - {self.term}"
+
+        return f"{self.student} - {self.term} {self.year}"
+
+
+
+
+
+
+class Payment(models.Model):
+
+
+    PAYMENT_METHODS = [
+
+        ("Cash","Cash"),
+
+        ("MPESA","MPESA"),
+
+        ("Bank","Bank"),
+
+    ]
+
+
+
+    fee = models.ForeignKey(
+
+        Fee,
+
+        on_delete=models.CASCADE,
+
+        related_name="payments"
+
+    )
+
+
+
+    amount = models.DecimalField(
+
+        max_digits=10,
+
+        decimal_places=2
+
+    )
+
+
+
+    method = models.CharField(
+
+        max_length=20,
+
+        choices=PAYMENT_METHODS,
+
+        default="Cash"
+
+    )
+
+
+
+    payment_date = models.DateTimeField(
+
+        default=timezone.now
+
+    )
+
+
+
+    created_at = models.DateTimeField(
+
+        auto_now_add=True
+
+    )
+
+
+
+    def save(self,*args,**kwargs):
+
+        super().save(*args,**kwargs)
+
+        self.fee.update_balance()
+
+
+
+    def delete(self,*args,**kwargs):
+
+        fee = self.fee
+
+        super().delete(*args,**kwargs)
+
+        fee.update_balance()
+
+
+
+    def __str__(self):
+
+        return f"{self.fee.student} - {self.amount}"

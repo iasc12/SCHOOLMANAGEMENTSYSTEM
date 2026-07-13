@@ -115,6 +115,11 @@ urlpatterns = [
         include("workers.urls")
     ),
 
+    path(
+    "fees/",
+    include("fees.urls"),
+),
+
 ]
 
 

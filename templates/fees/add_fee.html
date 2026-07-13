@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="dashboard-header">
+
+        <h2>➕ Add Student Fee</h2>
+
+        <a href="{% url 'fee_list' %}" class="btn btn-secondary">
+            Back to Fees
+        </a>
+
+    </div>
+
+
+    <div class="card p-4">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="form-group mb-3">
+
+                <label>
+                    Student
+                </label>
+
+                {{ form.student }}
+
+            </div>
+
+
+            <div class="form-group mb-3">
+
+                <label>
+                    Term
+                </label>
+
+                {{ form.term }}
+
+            </div>
+
+
+            <div class="form-group mb-3">
+
+                <label>
+                    Year
+                </label>
+
+                {{ form.year }}
+
+            </div>
+
+
+            <div class="form-group mb-3">
+
+                <label>
+                    Total Fee Amount
+                </label>
+
+                {{ form.amount }}
+
+            </div>
+
+
+            <div class="form-group mb-3">
+
+                <label>
+                    Amount Paid
+                </label>
+
+                {{ form.amount_paid }}
+
+            </div>
+
+
+
+            <button type="submit" class="btn btn-success">
+
+                Save Fee
+
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<div class="container">
+
+
+    <div class="card shadow">
+
+
+        <div class="card-header bg-success text-white">
+
+            <h4>
+                Make Payment
+            </h4>
+
+        </div>
+
+
+        <div class="card-body">
+
+
+            <h5>
+                Student:
+                {{ fee.student.first_name }}
+                {{ fee.student.last_name }}
+            </h5>
+
+
+            <p>
+                Total Fee:
+                Ksh {{ fee.amount }}
+            </p>
+
+
+            <p>
+                Current Balance:
+                Ksh {{ fee.balance }}
+            </p>
+
+
+
+            <form method="POST">
+
+
+                {% csrf_token %}
+
+
+                {{ form.as_p }}
+
+
+
+                <button class="btn btn-success">
+
+                    Save Payment
+
+                </button>
+
+
+
+                <a href="{% url 'fee_detail' fee.id %}"
+                   class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}
