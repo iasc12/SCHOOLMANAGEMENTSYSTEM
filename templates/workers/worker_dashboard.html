@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}
+Worker Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>👷 Worker Dashboard</h1>
+
+        <p>
+            Welcome,
+            <strong>
+                {{ worker.first_name }} {{ worker.last_name }}
+            </strong>
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- Statistics -->
+
+<div class="cards">
+
+    <div class="card blue">
+
+        <h3>Pending Tasks</h3>
+
+        <h1>{{ pending }}</h1>
+
+    </div>
+
+
+    <div class="card green">
+
+        <h3>Completed Tasks</h3>
+
+        <h1>{{ completed }}</h1>
+
+    </div>
+
+
+    <div class="card orange">
+
+        <h3>Total Tasks</h3>
+
+        <h1>{{ tasks|length }}</h1>
+
+    </div>
+
+</div>
+
+
+
+<!-- Task List -->
+
+<div class="panel">
+
+    <h2>📋 My Tasks</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Title</th>
+
+                <th>Description</th>
+
+                <th>Due Date</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for task in tasks %}
+
+            <tr>
+
+                <td>
+
+                    {{ task.title }}
+
+                </td>
+
+                <td>
+
+                    {{ task.description }}
+
+                </td>
+
+                <td>
+
+                    {{ task.due_date }}
+
+                </td>
+
+                <td>
+
+                    {% if task.status == "Completed" %}
+
+                        <span class="badge-success">
+
+                            ✔ Completed
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge-warning">
+
+                            ⏳ Pending
+
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+        {% empty %}
+
+            <tr>
+
+                <td colspan="4">
+
+                    No tasks have been assigned yet.
+
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+<div class="panel">
+
+    <h2>⚡ Quick Actions</h2>
+
+    <div class="buttons">
+
+        <a href="{% url 'worker_profile' %}" class="btn">
+
+            👤 My Profile
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

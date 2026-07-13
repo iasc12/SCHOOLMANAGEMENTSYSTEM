@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Worker
+{% endblock %}
+
+{% block content %}
+
+<div class="form-card">
+
+    <h2>✏ Edit Worker</h2>
+
+    <br>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <br>
+
+        <button type="submit" class="btn btn-success">
+            💾 Save Changes
+        </button>
+
+        <a href="{% url 'worker_detail' worker.id %}" class="btn btn-primary">
+            👁 View Worker
+        </a>
+
+        <a href="{% url 'worker_list' %}" class="btn btn-secondary">
+            ← Back to Workers
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

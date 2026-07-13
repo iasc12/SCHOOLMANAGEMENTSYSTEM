@@ -126,4 +126,10 @@ def worker_dashboard(request):
     if request.user.role != "worker":
         return redirect("dashboard")
 
-    return render(request, "accounts/worker_dashboard.html")
+    return render(
+        request,
+        "workers/worker_dashboard.html",
+        {
+            "worker": request.user.worker_profile
+        }
+    )

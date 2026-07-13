@@ -1,49 +1,266 @@
 {% extends "base.html" %}
 
+
+{% block title %}
+Teacher Details
+{% endblock %}
+
+
+
 {% block content %}
 
-<h2>Teacher Details</h2>
 
-<table>
-    <tr>
-        <th>Employee Number</th>
-        <td>{{ teacher.employee_number }}</td>
-    </tr>
 
-    <tr>
-        <th>First Name</th>
-        <td>{{ teacher.first_name }}</td>
-    </tr>
+<div class="panel">
 
-    <tr>
-        <th>Last Name</th>
-        <td>{{ teacher.last_name }}</td>
-    </tr>
 
-    <tr>
-        <th>Gender</th>
-        <td>{{ teacher.gender }}</td>
-    </tr>
 
-    <tr>
-        <th>Phone</th>
-        <td>{{ teacher.phone }}</td>
-    </tr>
+    <!-- Header -->
 
-    <tr>
-        <th>Email</th>
-        <td>{{ teacher.email }}</td>
-    </tr>
-</table>
+    <div class="page-header">
 
-<br>
 
-<a class="btn" href="{% url 'teacher_edit' teacher.id %}">
-    Edit Teacher
-</a>
+        <div>
 
-<a class="btn" href="{% url 'teacher_list' %}">
-    Back to Teachers
-</a>
+            <h2>
+
+                <i class="fas fa-chalkboard-user text-primary"></i>
+
+                Teacher Profile
+
+            </h2>
+
+
+            <p>
+
+                View teacher information and details.
+
+            </p>
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+    <!-- Profile Section -->
+
+
+    <div class="row align-items-center mb-4">
+
+
+        <div class="col-md-3 text-center">
+
+
+            <div class="teacher-avatar">
+
+
+                <i class="fas fa-user-tie"></i>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="col-md-9">
+
+
+            <h2>
+
+                {{ teacher.first_name }}
+                {{ teacher.last_name }}
+
+            </h2>
+
+
+
+            <p class="text-muted">
+
+
+                Employee Number:
+
+                <strong>
+
+                    {{ teacher.employee_number }}
+
+                </strong>
+
+
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+    <!-- Details Table -->
+
+
+    <div class="table-responsive">
+
+
+        <table class="table table-bordered">
+
+
+            <tbody>
+
+
+                <tr>
+
+                    <th>
+                        Employee Number
+                    </th>
+
+                    <td>
+                        {{ teacher.employee_number }}
+                    </td>
+
+                </tr>
+
+
+
+                <tr>
+
+                    <th>
+                        First Name
+                    </th>
+
+                    <td>
+                        {{ teacher.first_name }}
+                    </td>
+
+                </tr>
+
+
+
+
+                <tr>
+
+                    <th>
+                        Last Name
+                    </th>
+
+                    <td>
+                        {{ teacher.last_name }}
+                    </td>
+
+                </tr>
+
+
+
+
+                <tr>
+
+                    <th>
+                        Gender
+                    </th>
+
+                    <td>
+                        {{ teacher.gender }}
+                    </td>
+
+                </tr>
+
+
+
+
+                <tr>
+
+                    <th>
+                        Phone
+                    </th>
+
+                    <td>
+                        {{ teacher.phone }}
+                    </td>
+
+                </tr>
+
+
+
+
+                <tr>
+
+                    <th>
+                        Email
+                    </th>
+
+                    <td>
+                        {{ teacher.email }}
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+
+
+
+    <!-- Buttons -->
+
+
+    <div class="mt-4">
+
+
+        <a href="{% url 'teacher_edit' teacher.id %}"
+           class="btn btn-warning">
+
+
+            <i class="fas fa-pen"></i>
+
+            Edit Teacher
+
+
+        </a>
+
+
+
+
+
+        <a href="{% url 'teacher_list' %}"
+           class="btn btn-primary">
+
+
+            <i class="fas fa-arrow-left"></i>
+
+            Back to Teachers
+
+
+        </a>
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
 
 {% endblock %}

@@ -1,115 +1,79 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Dashboard</title>
+{% extends "base.html" %}
 
-    <style>
+{% block title %}
+Admin Dashboard
+{% endblock %}
 
-body{
-    margin:0;
-    font-family:Arial;
-    background:#f4f6f9;
-}
+{% block page_title %}
+Administrator Dashboard
+{% endblock %}
 
-.header{
-    background:#0d6efd;
-    color:white;
-    padding:20px;
-}
-
-.container{
-    width:90%;
-    margin:auto;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-    margin-top:30px;
-}
-
-.card{
-    background:white;
-    padding:25px;
-    border-radius:10px;
-    text-align:center;
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
-}
-
-.card h1{
-    margin:0;
-    color:#0d6efd;
-}
-
-.menu{
-    margin-top:40px;
-}
-
-.menu a{
-    display:inline-block;
-    padding:12px 20px;
-    background:#0d6efd;
-    color:white;
-    text-decoration:none;
-    border-radius:6px;
-    margin-right:10px;
-    margin-bottom:10px;
-}
-
-.menu a:hover{
-    background:#084298;
-}
-
-    </style>
-
-</head>
-<body>
-
-<div class="header">
-<h2>School Management System</h2>
-<p>Welcome {{ request.user.username }}</p>
-</div>
-
-<div class="container">
+{% block content %}
 
 <div class="cards">
 
-<div class="card">
-<h3>Students</h3>
-<h1>{{ students }}</h1>
+    <div class="card blue">
+        <i class="fa-solid fa-user-graduate"></i>
+
+        <h2>{{ students }}</h2>
+
+        <p>Total Students</p>
+    </div>
+
+    <div class="card green">
+
+        <i class="fa-solid fa-chalkboard-user"></i>
+
+        <h2>{{ teachers }}</h2>
+
+        <p>Total Teachers</p>
+
+    </div>
+
+    <div class="card orange">
+
+        <i class="fa-solid fa-users-gear"></i>
+
+        <h2>{{ workers }}</h2>
+
+        <p>Total Workers</p>
+
+    </div>
+
+    <div class="card purple">
+
+        <i class="fa-solid fa-school"></i>
+
+        <h2>{{ classes }}</h2>
+
+        <p>Total Classes</p>
+
+    </div>
+
 </div>
 
-<div class="card">
-<h3>Teachers</h3>
-<h1>{{ teachers }}</h1>
-</div>
+<div class="panel">
 
-<div class="card">
-<h3>Workers</h3>
-<h1>{{ workers }}</h1>
-</div>
+    <h2>Quick Management</h2>
 
-<div class="card">
-<h3>Classes</h3>
-<h1>{{ classes }}</h1>
-</div>
+    <div class="buttons">
 
-</div>
+        <a href="/students/" class="btn">Students</a>
 
-<div class="menu">
+        <a href="/teachers/" class="btn">Teachers</a>
 
-<a href="/students/">Manage Students</a>
+        <a href="/workers/" class="btn">Workers</a>
 
-<a href="#">Manage Teachers</a>
+        <a href="/classes/" class="btn">Classes</a>
 
-<a href="#">Manage Workers</a>
+        <a href="/subjects/" class="btn">Subjects</a>
 
-<a href="#">Manage Classes</a>
+        <a href="/fees/" class="btn">Fees</a>
+
+        <a href="/exams/" class="btn">Exams</a>
+
+    </div>
 
 </div>
 
-</div>
-
-</body>
-</html>
+{% endblock %}

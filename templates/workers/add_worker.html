@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Worker
+{% endblock %}
+
+{% block content %}
+
+<div class="form-card">
+
+    <h2>Add New Worker</h2>
+
+    <br>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {% if form.errors %}
+
+        <div style="background:#fee2e2;color:#b91c1c;padding:15px;border-radius:10px;margin-bottom:20px;">
+
+            <strong>Please correct the following errors:</strong>
+
+            {{ form.errors }}
+
+        </div>
+
+        {% endif %}
+
+        {{ form.as_p }}
+
+        <br>
+
+        <button type="submit" class="btn btn-success">
+
+            Save Worker
+
+        </button>
+
+        <a href="{% url 'worker_list' %}" class="btn btn-primary">
+
+            Back to Workers
+
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}
