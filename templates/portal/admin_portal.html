@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="container mt-4">
+
+<h1>
+Admin Portal
+</h1>
+
+
+<p>
+Welcome {{ request.user.username }}
+</p>
+
+
+<div class="row">
+
+
+<div class="col-md-4">
+
+<div class="card shadow p-3">
+
+<h3>
+Students
+</h3>
+
+<p>
+Manage students
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="col-md-4">
+
+<div class="card shadow p-3">
+
+<h3>
+Teachers
+</h3>
+
+<p>
+Manage teachers
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="col-md-4">
+
+<div class="card shadow p-3">
+
+<h3>
+Reports
+</h3>
+
+<p>
+View reports
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+{% endblock %}

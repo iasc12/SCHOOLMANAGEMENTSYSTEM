@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<div class="container mt-5">
+
+
+<div class="card shadow">
+
+
+<div class="card-body text-center">
+
+
+<h2>
+🏫 SCHOOL MANAGEMENT SYSTEM
+</h2>
+
+
+<h4 class="mt-3">
+PAYMENT RECEIPT
+</h4>
+
+
+<hr>
+
+
+
+<p>
+<strong>
+Receipt Number:
+</strong>
+
+{{ payment.receipt_number }}
+
+</p>
+
+
+
+
+
+<p>
+<strong>
+Student:
+</strong>
+
+{{ payment.fee.student.first_name }}
+
+{{ payment.fee.student.last_name }}
+
+</p>
+
+
+
+
+
+<p>
+<strong>
+Admission Number:
+</strong>
+
+{{ payment.fee.student.admission_number }}
+
+</p>
+
+
+
+
+
+<p>
+<strong>
+Term:
+</strong>
+
+{{ payment.fee.term }}
+
+{{ payment.fee.year }}
+
+</p>
+
+
+
+
+
+<p>
+<strong>
+Amount Paid:
+</strong>
+
+Ksh {{ payment.amount }}
+
+</p>
+
+
+
+
+
+<p>
+<strong>
+Payment Method:
+</strong>
+
+{{ payment.method }}
+
+</p>
+
+
+
+
+
+<p>
+<strong>
+Payment Date:
+</strong>
+
+{{ payment.payment_date }}
+
+</p>
+
+
+
+
+
+<p>
+<strong>
+Remaining Balance:
+</strong>
+
+Ksh {{ payment.fee.balance }}
+
+</p>
+
+
+
+<hr>
+
+
+<button onclick="window.print()"
+
+class="btn btn-primary">
+
+🖨 Print Receipt
+
+</button>
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+{% endblock %}

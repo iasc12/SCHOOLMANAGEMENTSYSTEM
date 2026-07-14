@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2>
+        Welcome, {{ teacher.full_name }}
+    </h2>
+
+    <p>
+        Employee Number: {{ teacher.employee_number }}
+    </p>
+
+
+    <div class="row mt-4">
+
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h5>Assigned Classes</h5>
+                <h2>{{ total_classes }}</h2>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h5>Total Students</h5>
+                <h2>{{ total_students }}</h2>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h5>Specialization</h5>
+                <h4>
+                    {{ teacher.specialization|default:"Not set" }}
+                </h4>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="card shadow mt-4 p-3">
+
+        <h4>
+            My Classes
+        </h4>
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Section</th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+
+            {% for cls in assigned_classes %}
+
+                <tr>
+                    <td>{{ cls.name }}</td>
+                    <td>{{ cls.section }}</td>
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td colspan="2">
+                        No classes assigned yet
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

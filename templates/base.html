@@ -1,446 +1,310 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
-
 
 <head>
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>
-
         {% block title %}
         School Management System
         {% endblock %}
-
     </title>
 
-
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-
-    <!-- Icons -->
+    <link rel="stylesheet"
+          href="{% static 'css/style.css' %}">
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-
 </head>
-
-
 
 <body>
 
-
-
 <div class="wrapper">
 
+    <!-- ==========================
+            SIDEBAR
+    =========================== -->
 
+    <div class="sidebar">
 
+        <div class="logo">
 
+            <div class="avatar">
+                🏫
+            </div>
 
-<!-- SIDEBAR -->
-
-<div class="sidebar">
-
-
-
-    <div class="logo">
-
-
-        <div class="avatar">
-
-            🏫
+            <h2>
+                School System
+            </h2>
 
         </div>
 
+        {% if request.user.is_authenticated %}
 
-        <h2>
-            School System
-        </h2>
+        <div class="profile">
 
+            {% if request.user.photo %}
 
-    </div>
+                <img src="{{ request.user.photo.url }}"
+                     class="profile-image">
 
+            {% else %}
 
+                <div class="profile-placeholder">
 
+                    {{ request.user.username|first|upper }}
 
+                </div>
 
-    {% if request.user.is_authenticated %}
+            {% endif %}
 
+            <h3>
 
+                {{ request.user.username }}
 
-    <div class="profile">
+            </h3>
 
+            <p>
 
-        {% if request.user.photo %}
+                {{ request.user.role|title }}
 
+            </p>
 
-            <img src="{{ request.user.photo.url }}"
-                 class="profile-image">
-
-
-        {% else %}
-
-
-            <div class="profile-placeholder">
-
-                {{ request.user.username|first|upper }}
-
-            </div>
-
+        </div>
 
         {% endif %}
 
+        <ul class="menu">
 
+            <li>
 
-        <h3>
+                <a href="{% url 'dashboard' %}">
 
-            {{ request.user.username }}
+                    <i class="fas fa-gauge-high"></i>
 
-        </h3>
+                    Dashboard
 
+                </a>
 
+            </li>
 
-        <p>
+            {% if request.user.is_authenticated %}
 
-            {{ request.user.role }}
+            {% if request.user.role == "admin" %}
 
-        </p>
+            <hr>
 
+            <li>
+                <a href="/students/">
+                    <i class="fas fa-user-graduate"></i>
+                    Students
+                </a>
+            </li>
 
+            <li>
+                <a href="/teachers/">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    Teachers
+                </a>
+            </li>
+
+            <li>
+                <a href="/workers/">
+                    <i class="fas fa-user-hard-hat"></i>
+                    Workers
+                </a>
+            </li>
+
+            <li>
+                <a href="/classes/">
+                    <i class="fas fa-school"></i>
+                    Classes
+                </a>
+            </li>
+
+            <li>
+                <a href="/subjects/">
+                    <i class="fas fa-book-open"></i>
+                    Subjects
+                </a>
+            </li>
+
+            <li>
+                <a href="/fees/">
+                    <i class="fas fa-money-bill-wave"></i>
+                    Fees
+                </a>
+            </li>
+
+            <li>
+                <a href="/exams/">
+                    <i class="fas fa-file-lines"></i>
+                    Exams
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'school_profile' %}">
+                    <i class="fas fa-building"></i>
+                    School Profile
+                </a>
+            </li>
+
+            {% endif %}
+
+            {% if request.user.role == "teacher" %}
+
+            <hr>
+
+            <li>
+                <a href="{% url 'teacher_dashboard' %}">
+                    <i class="fas fa-chalkboard"></i>
+                    Teacher Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'teacher_profile' %}">
+                    <i class="fas fa-user"></i>
+                    My Profile
+                </a>
+            </li>
+
+            {% endif %}
+
+            {% if request.user.role == "student" %}
+
+            <hr>
+
+            <li>
+                <a href="{% url 'student_dashboard' %}">
+                    <i class="fas fa-user-graduate"></i>
+                    Student Dashboard
+                </a>
+            </li>
+
+            {% endif %}
+
+            {% if request.user.role == "worker" %}
+
+            <hr>
+
+            <li>
+                <a href="{% url 'worker_dashboard' %}">
+                    <i class="fas fa-briefcase"></i>
+                    Worker Dashboard
+                </a>
+            </li>
+
+            {% endif %}
+
+            <hr>
+
+            <li>
+
+                <a href="{% url 'logout' %}">
+
+                    <i class="fas fa-right-from-bracket"></i>
+
+                    Logout
+
+                </a>
+
+            </li>
+
+            {% endif %}
+
+        </ul>
 
     </div>
 
-
-
-    {% endif %}
-
-
-
-
-
-
-<ul class="menu">
-
-
-
-<li>
-
-<a href="{% url 'dashboard' %}">
-
-<i class="fas fa-home"></i>
-
-Dashboard
-
-</a>
-
-</li>
-
-
-
-
-
-{% if request.user.is_authenticated %}
-
-
-
-{% if request.user.role == "admin" %}
-
-
-
-<li>
-
-<a href="/students/">
-
-<i class="fas fa-user-graduate"></i>
-
-Students
-
-</a>
-
-</li>
-
-
-
-
-<li>
-
-<a href="/teachers/">
-
-<i class="fas fa-chalkboard-teacher"></i>
-
-Teachers
-
-</a>
-
-</li>
-
-
-
-
-<li>
-
-<a href="/workers/">
-
-<i class="fas fa-users"></i>
-
-Workers
-
-</a>
-
-</li>
-
-
-
-
-<li>
-
-<a href="/classes/">
-
-<i class="fas fa-school"></i>
-
-Classes
-
-</a>
-
-</li>
-
-
-
-
-<li>
-
-<a href="/subjects/">
-
-<i class="fas fa-book"></i>
-
-Subjects
-
-</a>
-
-</li>
-
-
-
-
-<li>
-
-<a href="/fees/">
-
-<i class="fas fa-money-bill"></i>
-
-Fees
-
-</a>
-
-</li>
-
-
-
-
-<li>
-
-<a href="/exams/">
-
-<i class="fas fa-file-alt"></i>
-
-Exams
-
-</a>
-
-</li>
-
-
-
-{% endif %}
-
-
-
-
-
-
-
-{% if request.user.role == "teacher" %}
-
-
-<li>
-
-<a href="/teacher-dashboard/">
-
-<i class="fas fa-chalkboard"></i>
-
-Teacher Dashboard
-
-</a>
-
-</li>
-
-
-{% endif %}
-
-
-
-
-
-
-{% if request.user.role == "student" %}
-
-
-<li>
-
-<a href="/student-dashboard/">
-
-<i class="fas fa-user"></i>
-
-Student Dashboard
-
-</a>
-
-</li>
-
-
-{% endif %}
-
-
-
-
-
-
-{% if request.user.role == "worker" %}
-
-
-<li>
-
-<a href="/worker-dashboard/">
-
-<i class="fas fa-briefcase"></i>
-
-Worker Dashboard
-
-</a>
-
-</li>
-
-
-{% endif %}
-
-
-
-
-
-<li>
-
-<a href="{% url 'logout' %}">
-
-<i class="fas fa-sign-out-alt"></i>
-
-Logout
-
-</a>
-
-</li>
-
-
-
-
-{% endif %}
-
-
-
-</ul>
-
-
-
-
-</div>
-
-
-
-
-
-
-
-
-<!-- MAIN CONTENT -->
-
-
-<div class="main">
-
-
-
-
+    <!-- ==========================
+            MAIN CONTENT
+    =========================== -->
+
+    <div class="main">
+
+<!-- ==========================
+        TOP BAR
+=========================== -->
 
 <div class="topbar">
 
+    <div>
 
-<h1>
+        <h1>
 
-{% block page_title %}
+            {% block page_title %}
+            School Management System
+            {% endblock %}
 
-School Management System
+        </h1>
 
-{% endblock %}
+    </div>
 
-</h1>
+    {% if request.user.is_authenticated %}
 
+    <div class="topbar-user">
 
+        <i class="fas fa-user-circle"></i>
+
+        {{ request.user.username }}
+
+    </div>
+
+    {% endif %}
 
 </div>
 
 
-
-
-
+<!-- ==========================
+        PAGE CONTENT
+=========================== -->
 
 <div class="page-content">
 
+    {% if messages %}
 
+        {% for message in messages %}
 
-{% block content %}
+            <div class="success-message">
 
-{% endblock %}
+                <i class="fas fa-circle-check"></i>
 
+                {{ message }}
 
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+    {% block content %}
+
+    {% endblock %}
 
 </div>
 
 
-
-
-
+<!-- ==========================
+        FOOTER
+=========================== -->
 
 <footer>
 
-
-© 2026 School Management System
-
+    © 2026 School Management System
 
 </footer>
-
-
-
-
-
 </div>
 
-
-
-
-
-
 </div>
-
-
-
-
-
 
 </body>
-
 
 </html>

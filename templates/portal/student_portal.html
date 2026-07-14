@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="container mt-4">
+
+
+<h1>
+Student Portal
+</h1>
+
+
+<p>
+Welcome {{ request.user.username }}
+</p>
+
+
+
+<div class="card shadow p-3">
+
+<h3>
+My Learning
+</h3>
+
+<p>
+Assignments | Results | Attendance
+</p>
+
+</div>
+
+
+</div>
+
+
+{% endblock %}
